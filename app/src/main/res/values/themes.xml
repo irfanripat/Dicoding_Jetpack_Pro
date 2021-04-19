@@ -18,4 +18,9 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
+    <style name="CustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/open_sans_semibold</item>
+    </style>
+
 </resources>
