@@ -1,5 +1,6 @@
 package com.irfan.moviecatalogue.fragment.movie
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.irfan.moviecatalogue.activity.detail.DetailActivity
 import com.irfan.moviecatalogue.adapter.ListMovieAdapter
 import com.irfan.moviecatalogue.databinding.FragmentMovieBinding
 import com.irfan.moviecatalogue.model.Movie
@@ -30,14 +32,17 @@ class MovieFragment : Fragment() {
 
     private fun showRecyclerView() {
         viewModel.getData().observe(viewLifecycleOwner, {
-            val listMovieAdapter = ListMovieAdapter(it) {
-
+            val listMovieAdapter = ListMovieAdapter(it) {item->
+                val movie = item as Movie
+                showMovieDetail(movie)
             }
             binding.rvMovie.adapter = listMovieAdapter
         })
     }
 
-    private fun moveToDetailActivity(movie: Movie) {
-
+    private fun showMovieDetail(movie: Movie) {
+        val intent = Intent(activity, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_MOVIE, movie)
+        startActivity(intent)
     }
 }
