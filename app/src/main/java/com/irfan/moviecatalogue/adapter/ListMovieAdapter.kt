@@ -9,10 +9,19 @@ import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ItemMovieBinding
 import com.irfan.moviecatalogue.model.Movie
 
-class ListMovieAdapter(private val listItem: MutableList<Movie>, private val listener: (Any) -> Unit) : RecyclerView.Adapter<ListMovieAdapter.MainViewHolder>() {
+class ListMovieAdapter(
+    private val listItem: MutableList<Movie>,
+    private val listener: (Any) -> Unit
+) : RecyclerView.Adapter<ListMovieAdapter.MainViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder =
-        MainViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
+        MainViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_movie,
+                parent,
+                false
+            )
+        )
 
 
     override fun onBindViewHolder(holder: ListMovieAdapter.MainViewHolder, position: Int) {
@@ -31,12 +40,15 @@ class ListMovieAdapter(private val listItem: MutableList<Movie>, private val lis
                 tvOverview.text = listItem.overview
 
                 Glide.with(view.context)
-                    .load(listItem.posterImg)
+                    .load(getDrawableResource(listItem.posterImg?:""))
                     .into(imagePoster)
             }
 
             itemView.setOnClickListener { listener(listItem) }
         }
+
+        private fun getDrawableResource(drawableName: String) = view.context.resources.getIdentifier(drawableName, null, view.context.packageName)
+
     }
 
 }

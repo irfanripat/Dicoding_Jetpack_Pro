@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.activity.detail.DetailActivity
 import com.irfan.moviecatalogue.adapter.ListMovieAdapter
 import com.irfan.moviecatalogue.databinding.FragmentTvBinding
@@ -21,7 +20,7 @@ class TvFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTvBinding.inflate(inflater, container, false)
-        viewModel.setData(requireContext())
+        viewModel.setData()
         return binding.root
     }
 
@@ -32,13 +31,11 @@ class TvFragment : Fragment() {
     }
 
     private fun showRecyclerView() {
-        viewModel.getData().observe(viewLifecycleOwner, {
-            val listMovieAdapter = ListMovieAdapter(it) {item->
-                val tv = item as Movie
-                showTvDetail(tv)
-            }
-            binding.rvTv.adapter = listMovieAdapter
-        })
+        val listMovieAdapter = ListMovieAdapter(viewModel.getData()) {item->
+            val tv = item as Movie
+            showTvDetail(tv)
+        }
+        binding.rvTv.adapter = listMovieAdapter
     }
 
     private fun showTvDetail(tv: Movie) {

@@ -1,19 +1,17 @@
 package com.irfan.moviecatalogue.fragment.movie
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import com.irfan.moviecatalogue.model.Movie
-import com.irfan.moviecatalogue.model.MovieData
+import com.irfan.moviecatalogue.utils.MovieData
 
 class MovieViewModel : ViewModel() {
 
-    private val _listMovie = MutableLiveData<ArrayList<Movie>>()
+    private var _listMovie = ArrayList<Movie>()
 
-    fun setData(context: Context) {
-        _listMovie.value = MovieData(context).listData
+    fun setData() {
+        _listMovie = MovieData.listData
     }
 
-    fun getData() : LiveData<ArrayList<Movie>> = _listMovie
+    fun getData() : ArrayList<Movie> = _listMovie
 }

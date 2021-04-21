@@ -20,7 +20,7 @@ class MovieFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMovieBinding.inflate(inflater, container, false)
-        viewModel.setData(requireContext())
+        viewModel.setData()
         return binding.root
     }
 
@@ -31,13 +31,11 @@ class MovieFragment : Fragment() {
     }
 
     private fun showRecyclerView() {
-        viewModel.getData().observe(viewLifecycleOwner, {
-            val listMovieAdapter = ListMovieAdapter(it) {item->
-                val movie = item as Movie
-                showMovieDetail(movie)
-            }
-            binding.rvMovie.adapter = listMovieAdapter
-        })
+        val listMovieAdapter = ListMovieAdapter(viewModel.getData()) {item->
+            val movie = item as Movie
+            showMovieDetail(movie)
+        }
+        binding.rvMovie.adapter = listMovieAdapter
     }
 
     private fun showMovieDetail(movie: Movie) {

@@ -54,11 +54,11 @@ class DetailActivity : AppCompatActivity() {
         binding.apply {
             viewModel.getData().observe(this@DetailActivity, {
                 Glide.with(this@DetailActivity)
-                        .load(it.posterImg)
+                    .load(getDrawableResource(it.posterImg?:""))
                         .into(imagePoster)
 
                 Glide.with(this@DetailActivity)
-                        .load(it.posterImg)
+                        .load(getDrawableResource(it.posterImg?:""))
                         .into(imageBg)
 
                 tvTitle.text = it.title
@@ -76,6 +76,8 @@ class DetailActivity : AppCompatActivity() {
 
         return 0.0f
     }
+
+    private fun getDrawableResource(drawableName: String) = this.resources.getIdentifier(drawableName, null, this.packageName)
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
