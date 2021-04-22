@@ -19,7 +19,7 @@ object MovieData {
     )
 
     private val listMovieReleaseDate = arrayListOf(
-        "0/05/2018",
+        "10/05/2018",
         "2/14/2019",
         "2/21/2018",
         "1/02/2018",

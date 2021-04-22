@@ -52,21 +52,15 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getData() {
         binding.apply {
-            viewModel.getData().observe(this@DetailActivity, {
-                Glide.with(this@DetailActivity)
-                    .load(getDrawableResource(it.posterImg?:""))
-                        .into(imagePoster)
-
-                Glide.with(this@DetailActivity)
-                        .load(getDrawableResource(it.posterImg?:""))
-                        .into(imageBg)
-
-                tvTitle.text = it.title
-                tvRelease.text = it.release
-                tvOverview.text = it.overview
-                tvDuration.text = it.duration
-                ratingBar.rating = it.score.rating()
-            })
+            viewModel.getData().apply {
+                imagePoster.setImageResource(getDrawableResource(posterImg?:""))
+                imageBg.setImageResource(getDrawableResource(posterImg?:""))
+                tvTitle.text = title
+                tvRelease.text = release
+                tvOverview.text = overview
+                tvDuration.text = duration
+                ratingBar.rating = score.rating()
+            }
         }
     }
 
@@ -93,19 +87,19 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun shareData() {
-        viewModel.getData().observe(this, {
+        viewModel.getData().apply {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, """
-                ${it.title}(${it.release})
+                ${title}(${release})
                 
                 
-                ${it.overview}
+                $overview
             """.trimIndent())
             }
 
             startActivity(Intent.createChooser(shareIntent, null))
-        })
+        }
     }
 }

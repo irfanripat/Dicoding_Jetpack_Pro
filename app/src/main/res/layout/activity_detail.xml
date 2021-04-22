@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:scaleType="centerCrop"
             android:tint="#cc000000"
-            tools:src="@drawable/tv_poster_grey_anatomy"
+            tools:src="@drawable/movie_poster_a_start_is_born"
             tools:ignore="UseAppTint" />
 
         <ImageView
@@ -55,7 +55,7 @@
             android:layout_marginTop="80dp"
             android:layout_marginStart="16dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/tv_poster_grey_anatomy"/>
+            tools:src="@drawable/movie_poster_a_start_is_born"/>
 
         <TextView
             android:id="@+id/tv_title"

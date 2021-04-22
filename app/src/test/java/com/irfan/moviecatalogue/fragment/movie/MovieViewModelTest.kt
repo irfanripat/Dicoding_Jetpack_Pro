@@ -21,10 +21,9 @@ class MovieViewModelTest {
     }
 
     @Test
-    fun `check return of getData, should not be null`() {
+    fun `get List of Movie Data, return should not be null`() {
         movieViewModel.setData()
         val movie = movieViewModel.getData()
-        Log.d("movie", movie.toString())
         assertNotNull(movie)
         assertEquals(dummyMovie, movie)
     }
