@@ -12,4 +12,5 @@ class DetailViewModel : ViewModel() {
     }
 
     fun getData() : Movie = _detailMovie
+
 }

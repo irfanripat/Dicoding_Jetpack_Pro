@@ -1,5 +1,6 @@
 package com.irfan.moviecatalogue.fragment.movie
 
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment

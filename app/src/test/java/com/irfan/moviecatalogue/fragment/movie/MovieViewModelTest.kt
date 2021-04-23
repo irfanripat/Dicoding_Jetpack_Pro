@@ -1,8 +1,6 @@
 package com.irfan.moviecatalogue.fragment.movie
 
 
-
-import android.util.Log
 import com.irfan.moviecatalogue.utils.MovieData
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
