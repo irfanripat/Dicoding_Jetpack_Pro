@@ -103,13 +103,11 @@
 
         <RatingBar
             android:id="@+id/rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
+            style="@style/CustomRatingStyle"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
-            android:rating="4.5"
-            android:progressTint="#FFD700"
-            android:progressBackgroundTint="#FFD700"
+            tools:rating="4.5"
             android:isIndicator="true"
             android:max="5"
             android:layout_marginTop="16dp"

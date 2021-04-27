@@ -6,6 +6,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
+
 class DetailViewModelTest {
 
     private lateinit var detailViewModel: DetailViewModel
@@ -18,7 +19,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test intent from MovieFragment`() {
+    fun `get Detail of Movie Data, return should not be null`() {
         detailViewModel.setData(dummyMovieData[6])
         val movie = detailViewModel.getData()
         assertNotNull(movie)
@@ -31,7 +32,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test intent from TvFragment`() {
+    fun `get Detail of Tv Data, return should not be null`() {
         detailViewModel.setData(dummyTvData[3])
         val tv = detailViewModel.getData()
         assertNotNull(tv)

@@ -16,4 +16,9 @@
 
     <style name="Theme.SplashScreen" parent="Theme.MovieCatalogue"/>
 
+    <style name="CustomRatingStyle" parent="@style/Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressTint">@color/color_rating</item>
+        <item name="android:progressBackgroundTint">@color/color_rating</item>
+    </style>
+
 </resources>

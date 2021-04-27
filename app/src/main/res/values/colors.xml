@@ -9,4 +9,5 @@
     <color name="color_primary">#FF0037</color>
     <color name="color_primary_dark">#C30011</color>
     <color name="color_bg">#EDEEF1</color>
+    <color name="color_rating">#FFD700</color>
 </resources>
