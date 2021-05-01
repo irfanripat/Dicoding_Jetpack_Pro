@@ -3,15 +3,16 @@
     package="com.irfan.moviecatalogue">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogue">
-        <activity android:name=".activity.detail.DetailActivity"/>
+        <activity android:name="com.irfan.moviecatalogue.ui.activity.detail.DetailActivity"/>
         <activity
-            android:name=".activity.splashscreen.SplashScreenActivity"
+            android:name="com.irfan.moviecatalogue.ui.activity.splashscreen.SplashScreenActivity"
             android:theme="@style/Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.main.MainActivity"/>
+        <activity android:name="com.irfan.moviecatalogue.ui.activity.main.MainActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
