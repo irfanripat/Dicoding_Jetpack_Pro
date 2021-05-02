@@ -2,12 +2,13 @@ package com.irfan.moviecatalogue.di
 
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.managers.ApplicationComponentManager
+import dagger.hilt.android.components.ApplicationComponent
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-@InstallIn(ApplicationComponentManager::class)
+@InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
 
