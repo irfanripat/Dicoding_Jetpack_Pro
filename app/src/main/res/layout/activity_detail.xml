@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:scaleType="centerCrop"
             android:tint="#cc000000"
-            tools:src="@drawable/movie_poster_a_start_is_born"
+            android:background="#cc000000"
             tools:ignore="UseAppTint" />
 
         <ImageView

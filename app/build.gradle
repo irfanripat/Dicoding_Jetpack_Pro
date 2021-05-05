@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
-    id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -18,8 +18,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", '"9d7f6bbc95d4db740e5763a39a73a659"')
-        buildConfigField("String", "BASE_URL", '"https://api.themoviedb.org/3/"')
+        buildConfigField("String", "API_KEY", API_KEY)
     }
 
     buildTypes {
@@ -75,7 +74,17 @@ dependencies {
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    //hilt
-    implementation "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    // Lifecycle Extensions
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Dagger Hilt
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_dagger_hilt"
+    kapt "androidx.hilt:hilt-compiler:$androidx_dagger_hilt"
+    implementation "com.google.dagger:hilt-android:$dagger_hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt"
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:$dagger_hilt"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$dagger_hilt"
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_hilt"
+    kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hilt"
 }

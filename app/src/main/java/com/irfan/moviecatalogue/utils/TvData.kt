@@ -1,7 +1,7 @@
 package com.irfan.moviecatalogue.utils
 
 
-import com.irfan.moviecatalogue.data.source.local.entity.Movie
+import com.irfan.moviecatalogue.data.local.entity.Movie
 
 object TvData {
 

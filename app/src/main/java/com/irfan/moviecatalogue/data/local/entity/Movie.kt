@@ -1,4 +1,4 @@
-package com.irfan.moviecatalogue.data.source.local.entity
+package com.irfan.moviecatalogue.data.local.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

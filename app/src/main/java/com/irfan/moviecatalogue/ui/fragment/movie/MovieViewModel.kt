@@ -1,18 +1,32 @@
 package com.irfan.moviecatalogue.ui.fragment.movie
 
 
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.irfan.moviecatalogue.data.MovieRepository
-import com.irfan.moviecatalogue.data.source.local.entity.Movie
-import com.irfan.moviecatalogue.utils.MovieData
+import androidx.lifecycle.viewModelScope
+import com.irfan.moviecatalogue.repository.DefaultMovieRepository
+import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
+import com.irfan.moviecatalogue.utils.Resource
+import kotlinx.coroutines.launch
 
-class MovieViewModel : ViewModel() {
 
-    private var _listMovie = ArrayList<Movie>()
+class MovieViewModel @ViewModelInject constructor(private val movieRepository: DefaultMovieRepository) : ViewModel() {
 
-    fun setData() {
-        _listMovie = MovieData.listData
+    private val _listMovie = MutableLiveData<Resource<ApiResponse>>()
+    val listMovie: LiveData<Resource<ApiResponse>> = _listMovie
+
+    init {
+        getPopularMovie()
     }
 
-    fun getData() : ArrayList<Movie> = _listMovie
+    fun getPopularMovie() {
+        _listMovie.value = Resource.loading(null)
+        viewModelScope.launch {
+            val response = movieRepository.getPopularMovie()
+            _listMovie.value = response
+        }
+    }
+
 }

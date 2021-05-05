@@ -6,7 +6,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityMainBinding
 import com.irfan.moviecatalogue.ui.activity.main.adapter.PagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -23,9 +25,11 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             viewPager.adapter = PagerAdapter(this@MainActivity)
 
-            TabLayoutMediator(tabLayout, viewPager) {tab, _ ->
-                tab.text = resources.getString(R.string.movie)
-                tab.text = resources.getString(R.string.tv_show)
+            TabLayoutMediator(tabLayout, viewPager) {tab, position ->
+                when(position) {
+                    0 -> tab.text = resources.getString(R.string.movie)
+                    1 -> tab.text = resources.getString(R.string.tv_show)
+                }
             }.attach()
         }
     }

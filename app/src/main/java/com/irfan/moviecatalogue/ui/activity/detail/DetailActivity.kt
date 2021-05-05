@@ -6,9 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityDetailBinding
-import com.irfan.moviecatalogue.data.source.local.entity.Movie
+import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
+import com.irfan.moviecatalogue.utils.Constants.IMAGE_URL
 
 
 class DetailActivity : AppCompatActivity() {
@@ -30,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setData() {
-        val movie = intent.getParcelableExtra(EXTRA_MOVIE)?: Movie()
+        val movie = intent.getParcelableExtra(EXTRA_MOVIE)?: MovieResponse()
         viewModel.setData(movie)
     }
 
@@ -50,26 +52,27 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getData() {
         binding.apply {
-            viewModel.getData().apply {
-                imagePoster.setImageResource(getDrawableResource(posterImg?:""))
-                imageBg.setImageResource(getDrawableResource(posterImg?:""))
-                tvTitle.text = title
-                tvRelease.text = release
-                tvOverview.text = overview
-                tvDuration.text = duration
-                ratingBar.rating = score.rating()
-            }
+            viewModel.detailMovie.observe(this@DetailActivity, {
+                    Glide.with(this@DetailActivity).apply {
+                        load(IMAGE_URL + it.poster_path).into(imagePoster)
+                        load(IMAGE_URL + it.backdrop_path).into(imageBg)
+                    }
+                    tvTitle.text = if (it.original_name.isNullOrBlank()) it.original_title else it.original_name
+                    tvRelease.text = if (it.release_date.isNullOrBlank()) it.first_air_date else it.release_date
+                    tvOverview.text = it.overview
+                    tvDuration.text = "Duration"
+                    ratingBar.rating = it.vote_average.rating()
+                }
+            )
         }
     }
 
-    private fun Int?.rating() : Float {
+    private fun Double?.rating() : Float {
         if (this != null)
-            return this.toFloat() / 20.0f
+            return this.toFloat() / 2.0f
 
         return 0.0f
     }
-
-    private fun getDrawableResource(drawableName: String) = this.resources.getIdentifier(drawableName, null, this.packageName)
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
@@ -85,19 +88,18 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun shareData() {
-        viewModel.getData().apply {
+        viewModel.detailMovie.observe(this@DetailActivity, {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, """
-                ${title}(${release})
+                ${if (it.original_name.isNullOrBlank()) it.original_title else it.original_name}(${if (it.first_air_date.isNullOrBlank()) it.release_date else it.first_air_date})
                 
                 
-                $overview
-            """.trimIndent())
+                ${it.overview}
+                """.trimIndent())
             }
-
             startActivity(Intent.createChooser(shareIntent, null))
-        }
+        })
     }
 }

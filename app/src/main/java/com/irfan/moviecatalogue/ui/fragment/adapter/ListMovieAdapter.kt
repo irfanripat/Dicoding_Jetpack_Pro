@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ItemMovieBinding
-import com.irfan.moviecatalogue.data.source.local.entity.Movie
+import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
+import com.irfan.moviecatalogue.utils.Constants.IMAGE_URL
 
 class ListMovieAdapter(
-    private val listItem: MutableList<Movie>,
+    private val listItem: MutableList<MovieResponse>,
     private val listener: (Any) -> Unit
 ) : RecyclerView.Adapter<ListMovieAdapter.MainViewHolder>() {
 
@@ -33,22 +34,16 @@ class ListMovieAdapter(
     inner class MainViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
         private val binding = ItemMovieBinding.bind(view)
 
-        fun bind(listItem: Movie, listener: (Any) -> Unit) {
+        fun bind(listItem: MovieResponse, listener: (Any) -> Unit) {
             binding.apply {
-                tvTitle.text = listItem.title
-                tvRelease.text = listItem.release
+                tvTitle.text = if (listItem.original_title.isNullOrBlank()) listItem.original_name else listItem.original_title
+                tvRelease.text = if (listItem.first_air_date.isNullOrBlank()) listItem.release_date else listItem.first_air_date
                 tvOverview.text = listItem.overview
-
                 Glide.with(view.context)
-                    .load(getDrawableResource(listItem.posterImg?:""))
+                    .load(IMAGE_URL + listItem.poster_path)
                     .into(imagePoster)
             }
-
             itemView.setOnClickListener { listener(listItem) }
         }
-
-        private fun getDrawableResource(drawableName: String) = view.context.resources.getIdentifier(drawableName, null, view.context.packageName)
-
     }
-
 }
