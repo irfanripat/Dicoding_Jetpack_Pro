@@ -1,20 +1,13 @@
 package com.irfan.moviecatalogue.repository
 
 
-import com.irfan.moviecatalogue.data.local.entity.Movie
 import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
-import com.irfan.moviecatalogue.utils.MovieData
 import com.irfan.moviecatalogue.utils.Resource
-import com.irfan.moviecatalogue.utils.TvData
 import java.lang.Exception
 import javax.inject.Inject
 
 class DefaultMovieRepository @Inject constructor(private val apiService: ApiService) : MovieRepository{
-
-//    fun getLocalMovieList() : ArrayList<Movie> = MovieData.listData
-//
-//    fun getLocalTvList() : ArrayList<Movie> = TvData.listData
 
     override suspend fun getPopularMovie(): Resource<ApiResponse> {
         return try {
