@@ -6,13 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.irfan.moviecatalogue.repository.DefaultMovieRepository
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
+import com.irfan.moviecatalogue.repository.MovieRepository
 import com.irfan.moviecatalogue.utils.Resource
 import kotlinx.coroutines.launch
 
 
-class TvViewModel @ViewModelInject constructor(private val movieRepository: DefaultMovieRepository) : ViewModel() {
+class TvViewModel @ViewModelInject constructor(private val movieRepository: MovieRepository) : ViewModel() {
 
     private val _listTv = MutableLiveData<Resource<ApiResponse>>()
     val listTv :LiveData<Resource<ApiResponse>> = _listTv

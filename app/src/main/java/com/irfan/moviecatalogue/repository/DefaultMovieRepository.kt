@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 class DefaultMovieRepository @Inject constructor(private val apiService: ApiService) : MovieRepository{
 
-    fun getLocalMovieList() : ArrayList<Movie> = MovieData.listData
-
-    fun getLocalTvList() : ArrayList<Movie> = TvData.listData
+//    fun getLocalMovieList() : ArrayList<Movie> = MovieData.listData
+//
+//    fun getLocalTvList() : ArrayList<Movie> = TvData.listData
 
     override suspend fun getPopularMovie(): Resource<ApiResponse> {
         return try {

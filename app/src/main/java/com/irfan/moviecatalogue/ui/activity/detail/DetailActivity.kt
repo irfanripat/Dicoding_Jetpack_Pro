@@ -60,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
                     tvTitle.text = if (it.original_name.isNullOrBlank()) it.original_title else it.original_name
                     tvRelease.text = if (it.release_date.isNullOrBlank()) it.first_air_date else it.release_date
                     tvOverview.text = it.overview
-                    tvDuration.text = "Duration"
+//                    tvDuration.text = "Duration"
                     ratingBar.rating = it.vote_average.rating()
                 }
             )
