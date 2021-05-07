@@ -9,5 +9,8 @@
     <string name="movie">Movie</string>
     <string name="tv_show">Tv Show</string>
     <string name="no_internet_connection">No Internet Connection</string>
-
+    <string name="no_runtime_data_msg">No runtime Information</string>
+    <string name="runtime_text_for_condition_1">%1$d Hour %2$d Minutes</string>
+    <string name="runtime_text_for_condition_2">%1$d Minutes</string>
+    <string name="refresh">Refresh</string>
 </resources>

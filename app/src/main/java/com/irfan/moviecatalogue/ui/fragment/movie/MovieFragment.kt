@@ -14,8 +14,9 @@ import com.irfan.moviecatalogue.ui.activity.detail.DetailActivity
 import com.irfan.moviecatalogue.ui.fragment.adapter.ListMovieAdapter
 import com.irfan.moviecatalogue.databinding.FragmentMovieBinding
 import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
-import com.irfan.moviecatalogue.utils.Commons.hide
-import com.irfan.moviecatalogue.utils.Commons.show
+import com.irfan.moviecatalogue.utils.Utils.hide
+import com.irfan.moviecatalogue.utils.Utils.show
+import com.irfan.moviecatalogue.utils.Constants.MOVIE_TYPE
 import com.irfan.moviecatalogue.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,6 +36,9 @@ class MovieFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         observeMovieList()
         binding.swipeRefresh.setOnRefreshListener(this)
+        binding.noConnection.btnRefresh.setOnClickListener {
+            viewModel.getPopularMovie()
+        }
     }
 
     private fun observeMovieList() {
@@ -42,7 +46,7 @@ class MovieFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             if (!it.data?.results.isNullOrEmpty()) {
                 val listMovieAdapter = ListMovieAdapter(it.data!!.results) { item ->
                     val movie = item as MovieResponse
-                    showMovieDetail(movie)
+                    showMovieDetail(movie.id?:-1)
                 }
                 binding.rvMovie.adapter = listMovieAdapter
             }
@@ -87,9 +91,10 @@ class MovieFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    private fun showMovieDetail(movie: MovieResponse) {
+    private fun showMovieDetail(id: Int) {
         val intent = Intent(activity, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_MOVIE, movie)
+        intent.putExtra(DetailActivity.EXTRA_ID, id)
+        intent.putExtra(DetailActivity.EXTRA_TYPE, MOVIE_TYPE)
         startActivity(intent)
     }
 

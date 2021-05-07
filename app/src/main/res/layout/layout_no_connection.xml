@@ -23,4 +23,14 @@
         android:textColor="@color/font_black"
         android:fontFamily="@font/source_sans_pro"/>
 
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="@string/refresh"
+        android:textAllCaps="false" />
+
 </LinearLayout>

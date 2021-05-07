@@ -7,24 +7,6 @@
     android:background="@color/color_bg"
     tools:context="com.irfan.moviecatalogue.ui.activity.detail.DetailActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        app:elevation="0dp"
-        android:background="@android:color/transparent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,7 +25,7 @@
             android:background="#cc000000"
             tools:ignore="UseAppTint" />
 
-        <ImageView
+        <View
             android:id="@+id/image_poster"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -54,72 +36,60 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="80dp"
             android:layout_marginStart="16dp"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/movie_poster_a_start_is_born"/>
+            android:background="@android:color/darker_gray"/>
 
-        <TextView
+        <View
             android:id="@+id/tv_title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/source_sans_pro"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_poster"
             app:layout_constraintTop_toTopOf="@+id/image_poster"
-            tools:text="Grey\'s Anatomy" />
+            android:background="@android:color/darker_gray"/>
 
-        <TextView
+        <View
             android:id="@+id/tv_release"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/source_sans_pro"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_poster"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="20/1/2021" />
+            android:background="@android:color/darker_gray"/>
 
-        <TextView
+        <View
             android:id="@+id/tv_duration"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/source_sans_pro"
-            android:textColor="@color/white"
-            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_poster"
             app:layout_constraintTop_toBottomOf="@id/tv_release"
-            tools:text="1h 29m" />
+            android:background="@android:color/darker_gray"/>
 
-        <RatingBar
+        <View
             android:id="@+id/rating_bar"
-            style="@style/CustomRatingStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
             android:layout_marginStart="16dp"
-            tools:rating="4.5"
-            android:isIndicator="true"
-            android:max="5"
+            android:layout_marginEnd="40dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/image_poster"
-            app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+            app:layout_constraintStart_toEndOf="@id/image_poster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_duration"
+            android:background="@android:color/darker_gray"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="40dp"
             android:elevation="0dp"
-            app:cardElevation="0dp"
             android:outlineProvider="none"
             app:cardBackgroundColor="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -139,51 +109,20 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
+                    android:visibility="invisible"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/source_sans_pro"
-                    android:text="@string/overview"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:background="@android:color/darker_gray"/>
 
-                <TextView
+                <View
                     android:id="@+id/tv_overview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/source_sans_pro"
-                    android:justificationMode="inter_word"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:targetApi="o"
-                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+                    android:layout_height="250dp"
+                    android:background="@android:color/darker_gray"/>
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <include
-                    android:id="@+id/no_connection"
-                    layout="@layout/layout_no_connection"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_centerInParent="true"/>
-
-            </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <include
-                layout="@layout/activity_detail_shimmer"/>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

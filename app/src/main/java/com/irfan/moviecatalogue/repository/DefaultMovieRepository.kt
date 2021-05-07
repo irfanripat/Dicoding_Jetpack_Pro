@@ -3,6 +3,7 @@ package com.irfan.moviecatalogue.repository
 
 import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
+import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
 import com.irfan.moviecatalogue.utils.Resource
 import java.lang.Exception
 import javax.inject.Inject
@@ -33,6 +34,36 @@ class DefaultMovieRepository @Inject constructor(private val apiService: ApiServ
                 } ?: Resource.error("Unknown error", null)
             } else {
                 Resource.error("Unknown error", null)
+            }
+        } catch (e: Exception) {
+            Resource.error("No Internet connection", null)
+        }
+    }
+
+    override suspend fun getDetailMovie(id: Int): Resource<MovieResponse> {
+        return try {
+            val response = apiService.getDetailMovie(id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return@let Resource.success(it)
+                } ?: Resource.error("Unknown Error", null)
+            } else {
+                Resource.error("Unknown Error", null)
+            }
+        } catch (e: Exception) {
+            Resource.error("No Internet connection", null)
+        }
+    }
+
+    override suspend fun getDetailTv(id: Int): Resource<MovieResponse> {
+        return try {
+            val response = apiService.getDetailTv(id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return@let Resource.success(it)
+                } ?: Resource.error("Unknown Error", null)
+            } else {
+                Resource.error("Unknown Error", null)
             }
         } catch (e: Exception) {
             Resource.error("No Internet connection", null)

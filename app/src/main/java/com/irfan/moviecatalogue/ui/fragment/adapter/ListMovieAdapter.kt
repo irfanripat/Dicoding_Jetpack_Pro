@@ -36,11 +36,11 @@ class ListMovieAdapter(
 
         fun bind(listItem: MovieResponse, listener: (Any) -> Unit) {
             binding.apply {
-                tvTitle.text = if (listItem.original_title.isNullOrBlank()) listItem.original_name else listItem.original_title
-                tvRelease.text = if (listItem.first_air_date.isNullOrBlank()) listItem.release_date else listItem.first_air_date
+                tvTitle.text = if (listItem.movieTitle.isNullOrBlank()) listItem.tvName else listItem.movieTitle
+                tvRelease.text = if (listItem.firstAirDate.isNullOrBlank()) listItem.releaseDate else listItem.firstAirDate
                 tvOverview.text = listItem.overview
                 Glide.with(view.context)
-                    .load(IMAGE_URL + listItem.poster_path)
+                    .load(IMAGE_URL + listItem.posterPath)
                     .into(imagePoster)
             }
             itemView.setOnClickListener { listener(listItem) }
