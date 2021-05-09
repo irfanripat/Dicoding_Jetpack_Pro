@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
     tools:context="com.irfan.moviecatalogue.ui.activity.detail.DetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -41,6 +40,7 @@
             android:scaleType="centerCrop"
             android:tint="#cc000000"
             android:background="#cc000000"
+            tools:src="@drawable/default_placeholder"
             tools:ignore="UseAppTint" />
 
         <ImageView
@@ -55,7 +55,7 @@
             android:layout_marginTop="80dp"
             android:layout_marginStart="16dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/movie_poster_a_start_is_born"/>
+            tools:src="@drawable/default_placeholder"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -140,6 +140,7 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:id="@+id/label_overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -176,6 +177,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.facebook.shimmer.ShimmerFrameLayout
+            android:visibility="gone"
             android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

@@ -9,6 +9,7 @@ import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ItemMovieBinding
 import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
 import com.irfan.moviecatalogue.utils.Constants.IMAGE_URL
+import com.irfan.moviecatalogue.utils.IdlingResourceTarget
 
 class ListMovieAdapter(
     private val listItem: MutableList<MovieResponse>,
@@ -41,7 +42,10 @@ class ListMovieAdapter(
                 tvOverview.text = listItem.overview
                 Glide.with(view.context)
                     .load(IMAGE_URL + listItem.posterPath)
-                    .into(imagePoster)
+                    .error(R.drawable.default_placeholder)
+                    .into(
+                            IdlingResourceTarget(imagePoster)
+                    )
             }
             itemView.setOnClickListener { listener(listItem) }
         }

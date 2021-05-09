@@ -1,10 +1,9 @@
 package com.irfan.moviecatalogue.repository
 
-import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
 import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
 import com.irfan.moviecatalogue.utils.Resource
-import java.lang.Exception
+
 
 class FakeMovieRepository : MovieRepository {
 
@@ -27,6 +26,22 @@ class FakeMovieRepository : MovieRepository {
             Resource.error("Error", null)
         } else {
             Resource.success(ApiResponse(arrayListOf()))
+        }
+    }
+
+    override suspend fun getDetailMovie(id: Int): Resource<MovieResponse> {
+        return if(shouldReturnNetworkError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(MovieResponse(id = id))
+        }
+    }
+
+    override suspend fun getDetailTv(id: Int): Resource<MovieResponse> {
+        return if(shouldReturnNetworkError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(MovieResponse(id = id))
         }
     }
 }

@@ -1,47 +1,77 @@
 package com.irfan.moviecatalogue.ui.activity.detail
 
-import com.irfan.moviecatalogue.utils.MovieData
-import com.irfan.moviecatalogue.utils.TvData
-import org.junit.Assert.*
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.common.truth.Truth.assertThat
+import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
+import com.irfan.moviecatalogue.repository.FakeMovieRepository
+import com.irfan.moviecatalogue.utils.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
-
+@ExperimentalCoroutinesApi
 class DetailViewModelTest {
 
     private lateinit var detailViewModel: DetailViewModel
-    private val dummyMovieData = MovieData.listData
-    private val dummyTvData = TvData.listData
+    private lateinit var fakeMovieRepository: FakeMovieRepository
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     @Before
     fun setUp() {
-        detailViewModel = DetailViewModel()
+        fakeMovieRepository = FakeMovieRepository()
+    }
+
+    private val dummyId = 12345
+    private val dummyResponse = MovieResponse(id = dummyId)
+
+    @Test
+    fun `test if getDetailMovie is error, return should be null`() {
+        fakeMovieRepository.setShouldReturnNetworkError(true)
+        detailViewModel = DetailViewModel(fakeMovieRepository)
+        detailViewModel.getDetailMovie(dummyId)
+        val response = detailViewModel.detailItem.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+        assertThat(response.data).isNull()
     }
 
     @Test
-    fun `get Detail of Movie Data, return should not be null`() {
-//        detailViewModel.setData(dummyMovieData[6])
-//        val movie = detailViewModel.getData()
-//        assertNotNull(movie)
-//        assertEquals(dummyMovieData[6].title, movie.title)
-//        assertEquals(dummyMovieData[6].release, movie.release)
-//        assertEquals(dummyMovieData[6].score, movie.score)
-//        assertEquals(dummyMovieData[6].duration, movie.duration)
-//        assertEquals(dummyMovieData[6].posterImg, movie.posterImg)
-//        assertEquals(dummyMovieData[6].overview, movie.overview)
+    fun `test if getDetailMovie is success, return should not be null`() {
+        fakeMovieRepository.setShouldReturnNetworkError(false)
+        detailViewModel = DetailViewModel(fakeMovieRepository)
+        detailViewModel.getDetailMovie(dummyId)
+        val response = detailViewModel.detailItem.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
+        assertThat(response.data).isNotNull()
+        assertThat(response.data).isEqualTo(dummyResponse)
+        assertThat(response.data?.id).isEqualTo(dummyId)
     }
 
     @Test
-    fun `get Detail of Tv Data, return should not be null`() {
-//        detailViewModel.setData(dummyTvData[3])
-//        val tv = detailViewModel.getData()
-//        assertNotNull(tv)
-//        assertEquals(dummyTvData[3].title, tv.title)
-//        assertEquals(dummyTvData[3].release, tv.release)
-//        assertEquals(dummyTvData[3].score, tv.score)
-//        assertEquals(dummyTvData[3].duration, tv.duration)
-//        assertEquals(dummyTvData[3].posterImg, tv.posterImg)
-//        assertEquals(dummyTvData[3].overview, tv.overview)
+    fun `test if getDetailTv is error, return should be null`() {
+        fakeMovieRepository.setShouldReturnNetworkError(true)
+        detailViewModel = DetailViewModel(fakeMovieRepository)
+        detailViewModel.getDetailTv(dummyId)
+        val response = detailViewModel.detailItem.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+        assertThat(response.data).isNull()
+    }
+
+    @Test
+    fun `test if getDetailTv is success, return should not be null`() {
+        fakeMovieRepository.setShouldReturnNetworkError(false)
+        detailViewModel = DetailViewModel(fakeMovieRepository)
+        detailViewModel.getDetailTv(dummyId)
+        val response = detailViewModel.detailItem.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
+        assertThat(response.data).isNotNull()
+        assertThat(response.data).isEqualTo(dummyResponse)
+        assertThat(response.data?.id).isEqualTo(dummyId)
     }
 
 }

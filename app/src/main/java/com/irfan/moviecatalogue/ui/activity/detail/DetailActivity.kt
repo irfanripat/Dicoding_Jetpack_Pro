@@ -7,12 +7,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityDetailBinding
 import com.irfan.moviecatalogue.utils.Constants.IMAGE_URL
 import com.irfan.moviecatalogue.utils.Constants.MOVIE_TYPE
 import com.irfan.moviecatalogue.utils.Constants.TV_TYPE
+import com.irfan.moviecatalogue.utils.IdlingResourceTarget
 import com.irfan.moviecatalogue.utils.Status
 import com.irfan.moviecatalogue.utils.Utils.hide
 import com.irfan.moviecatalogue.utils.Utils.rating
@@ -45,6 +47,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setUpBinding() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.noConnection.tvNoConnection.setTextColor(ContextCompat.getColor(this, R.color.white))
     }
 
     private fun setData() {
@@ -79,11 +82,18 @@ class DetailActivity : AppCompatActivity() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         binding.noConnection.root.hide()
+                        binding.ratingBar.show()
+                        binding.labelOverview.show()
                         hideLoadingIndicator()
                         it.data?.let { inner ->
                             Glide.with(this@DetailActivity).apply {
-                                load(IMAGE_URL + inner.posterPath).into(imagePoster)
-                                load(IMAGE_URL + inner.backdropPath).into(imageBg)
+                                load(IMAGE_URL + inner.posterPath)
+                                        .error(R.drawable.default_placeholder)
+                                        .into(IdlingResourceTarget(imagePoster))
+
+                                load(IMAGE_URL + inner.backdropPath)
+                                        .error(R.drawable.default_placeholder)
+                                        .into(IdlingResourceTarget(imageBg))
                             }
                             tvTitle.text = if (type == MOVIE_TYPE) inner.movieTitle else inner.tvName
                             tvRelease.text = if (type == MOVIE_TYPE) inner.releaseDate else inner.firstAirDate
@@ -99,9 +109,10 @@ class DetailActivity : AppCompatActivity() {
                     Status.ERROR -> {
                         binding.noConnection.root.show()
                         hideLoadingIndicator()
+                        binding.ratingBar.hide()
+                        binding.labelOverview.hide()
                     }
                 }
-
             })
         }
     }

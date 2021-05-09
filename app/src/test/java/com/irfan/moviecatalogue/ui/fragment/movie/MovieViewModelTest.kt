@@ -36,7 +36,7 @@ class MovieViewModelTest {
 
         val response = movieViewModel.listMovie.getOrAwaitValueTest()
         assertThat(response.status).isEqualTo(Status.ERROR)
-        assertThat(response.data).isEqualTo(null)
+        assertThat(response.data).isNull()
     }
 
     @Test

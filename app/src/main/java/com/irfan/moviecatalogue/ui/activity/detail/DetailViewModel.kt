@@ -1,7 +1,6 @@
 package com.irfan.moviecatalogue.ui.activity.detail
 
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,7 +28,6 @@ class DetailViewModel @ViewModelInject constructor(private val movieRepository: 
         _detailItem.value = Resource.loading(null)
         viewModelScope.launch {
             val response = movieRepository.getDetailTv(id)
-            Log.d("DetailActivityTag", response.data.toString())
             _detailItem.value = response
         }
     }

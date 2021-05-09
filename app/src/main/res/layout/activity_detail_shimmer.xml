@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
     tools:context="com.irfan.moviecatalogue.ui.activity.detail.DetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,7 +73,6 @@
             android:background="@android:color/darker_gray"/>
 
         <View
-            android:id="@+id/rating_bar"
             android:layout_width="0dp"
             android:layout_height="16dp"
             android:layout_marginStart="16dp"

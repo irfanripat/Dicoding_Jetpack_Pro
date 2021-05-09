@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/movie_s_image"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/movie_poster_infinity_war" />
+                tools:src="@drawable/default_placeholder" />
 
         </androidx.cardview.widget.CardView>
 
