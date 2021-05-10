@@ -46,6 +46,7 @@ class MovieViewModelTest {
 
         val response = movieViewModel.listMovie.getOrAwaitValueTest()
         assertThat(response.status).isEqualTo(Status.SUCCESS)
+        assertThat(response.data).isNotNull()
         assertThat(response.data).isEqualTo(ApiResponse(arrayListOf()))
     }
 

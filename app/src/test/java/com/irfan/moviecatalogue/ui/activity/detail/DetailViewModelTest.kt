@@ -31,7 +31,7 @@ class DetailViewModelTest {
     private val dummyResponse = MovieResponse(id = dummyId)
 
     @Test
-    fun `test if getDetailMovie is error, return should be null`() {
+    fun `test if getDetailMovie is failed, return data should be null`() {
         fakeMovieRepository.setShouldReturnNetworkError(true)
         detailViewModel = DetailViewModel(fakeMovieRepository)
         detailViewModel.getDetailMovie(dummyId)
@@ -41,7 +41,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test if getDetailMovie is success, return should not be null`() {
+    fun `test if getDetailMovie is success, return data should not be null`() {
         fakeMovieRepository.setShouldReturnNetworkError(false)
         detailViewModel = DetailViewModel(fakeMovieRepository)
         detailViewModel.getDetailMovie(dummyId)
@@ -53,7 +53,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test if getDetailTv is error, return should be null`() {
+    fun `test if getDetailTv is failed, return data should be null`() {
         fakeMovieRepository.setShouldReturnNetworkError(true)
         detailViewModel = DetailViewModel(fakeMovieRepository)
         detailViewModel.getDetailTv(dummyId)
@@ -63,7 +63,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test if getDetailTv is success, return should not be null`() {
+    fun `test if getDetailTv is success, return data should not be null`() {
         fakeMovieRepository.setShouldReturnNetworkError(false)
         detailViewModel = DetailViewModel(fakeMovieRepository)
         detailViewModel.getDetailTv(dummyId)

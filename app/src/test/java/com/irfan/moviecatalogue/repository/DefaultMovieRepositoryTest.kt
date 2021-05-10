@@ -68,7 +68,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `error get popular movie, response body should be null`() {
+    fun `failed get popular movie, response body should be null`() {
         runBlocking {
             `when`(apiService.getPopularMovie()).thenReturn(mockErrorResponse)
             val response = defaultMovieRepository.getPopularMovie()
@@ -88,7 +88,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `error get popular tv, response body should be null`() {
+    fun `failed get popular tv, response body should be null`() {
         runBlocking {
             `when`(apiService.getPopularTv()).thenReturn(mockErrorResponse)
             val response = defaultMovieRepository.getPopularMovie()
@@ -128,7 +128,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `error when get detail of movie, response status should be error and data should be null`() {
+    fun `failed when get detail of movie, response status should be error and data should be null`() {
         runBlocking {
             `when`(apiService.getDetailMovie(dummyId)).thenReturn(mockErrorMovieResponse)
             val response = defaultMovieRepository.getPopularMovie()

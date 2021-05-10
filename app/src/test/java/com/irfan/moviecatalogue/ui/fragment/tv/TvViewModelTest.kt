@@ -46,6 +46,7 @@ class TvViewModelTest {
 
         val response = tvViewModel.listTv.getOrAwaitValueTest()
         assertThat(response.status).isEqualTo(Status.SUCCESS)
+        assertThat(response.data).isNotNull()
         assertThat(response.data).isEqualTo(ApiResponse(arrayListOf()))
     }
 }
