@@ -117,44 +117,47 @@ class DefaultMovieRepositoryTest {
     private val dummyId = 12345
 
     @Test
-    fun `success get detail of movie, response body should not be null`() {
+    fun `success when get detail of movie, response status should be success and data should not be null`() {
         runBlocking {
             `when`(apiService.getDetailMovie(dummyId)).thenReturn(mockSuccessMovieResponse)
             val response = defaultMovieRepository.getDetailMovie(dummyId)
-            assertNotNull(response)
+            assertThat(response.status).isEqualTo(Status.SUCCESS)
+            assertThat(response.data).isNotNull()
             assertThat(response.data).isEqualTo(mockSuccessMovieResponse.body())
         }
     }
 
     @Test
-    fun `error get detail of movie, response body should be null`() {
+    fun `error when get detail of movie, response status should be error and data should be null`() {
         runBlocking {
             `when`(apiService.getDetailMovie(dummyId)).thenReturn(mockErrorMovieResponse)
             val response = defaultMovieRepository.getPopularMovie()
-
+            assertThat(response.data).isNull()
+            assertThat(response.status).isEqualTo(Status.ERROR)
             assertThat(response.data).isEqualTo(mockErrorMovieResponse.body())
         }
     }
 
     @Test
-    fun `success get detail of tv, response body should not be null`() {
+    fun `success when get detail of tv, response status should be success and data should not be null`() {
         runBlocking {
             `when`(apiService.getDetailTv(dummyId)).thenReturn(mockSuccessMovieResponse)
             val response = defaultMovieRepository.getDetailTv(dummyId)
-            assertNotNull(response)
+            assertThat(response.status).isEqualTo(Status.SUCCESS)
+            assertThat(response.status).isNotNull()
             assertThat(response.data).isEqualTo(mockSuccessMovieResponse.body())
         }
     }
 
     @Test
-    fun `error get detail of tv, response body should be null`() {
+    fun `error when get detail of tv, response status should be erro and data should be null`() {
         runBlocking {
             `when`(apiService.getDetailTv(dummyId)).thenReturn(mockErrorMovieResponse)
             val response = defaultMovieRepository.getDetailTv(dummyId)
-
+            assertThat(response.data).isNull()
+            assertThat(response.status).isEqualTo(Status.ERROR)
             assertThat(response.data).isEqualTo(mockErrorMovieResponse.body())
         }
     }
-
 
 }

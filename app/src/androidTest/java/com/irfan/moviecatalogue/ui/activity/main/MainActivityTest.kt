@@ -36,8 +36,8 @@ class MainActivityTest {
 
     @Before
     fun setUp(){
-        ActivityScenario.launch(MainActivity::class.java)
         instrumentationContext = InstrumentationRegistry.getInstrumentation().context
+        ActivityScenario.launch(MainActivity::class.java)
     }
 
     @Test
@@ -72,9 +72,9 @@ class MainActivityTest {
 
         try {
             onView(allOf(withId(R.id.rv_movie), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5) )
-                .check(matches(not(atPosition(5, hasDescendant(withText(""))))))
-                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click()))
+                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(6) )
+                .check(matches(not(atPosition(6, hasDescendant(withText(""))))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(6, click()))
 
             try {
                 onView(allOf(withId(R.id.tv_title), isDisplayed()))
@@ -118,9 +118,9 @@ class MainActivityTest {
 
         try {
             onView(allOf(withId(R.id.rv_tv), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5))
-                .check(matches(not(atPosition(5, hasDescendant(withText(""))))))
-                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click()))
+                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(6))
+                .check(matches(not(atPosition(6, hasDescendant(withText(""))))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(6, click()))
 
             try {
                 onView(allOf(withId(R.id.tv_title), isDisplayed()))
