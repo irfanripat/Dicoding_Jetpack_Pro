@@ -50,5 +50,4 @@ class MovieViewModelTest {
         assertThat(response.data).isEqualTo(ApiResponse(arrayListOf()))
     }
 
-
 }
