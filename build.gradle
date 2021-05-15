@@ -5,6 +5,7 @@ buildscript {
         lifecycle_version = "2.3.1"
         androidCoreTestVersion = '2.1.0'
         mockitoKotlinVersion = '2.2.0'
+        room_version = "2.3.0"
     }
     repositories {
         google()

@@ -1,13 +1,19 @@
 package com.irfan.moviecatalogue.di
 
 
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.irfan.moviecatalogue.data.local.MovieDatabase
 import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.repository.DefaultMovieRepository
 import com.irfan.moviecatalogue.repository.MovieRepository
 import com.irfan.moviecatalogue.utils.Constants.BASE_URL
+import com.irfan.moviecatalogue.utils.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -33,5 +39,23 @@ object AppModule {
                 .build()
                 .create(ApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideMovieDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(context, MovieDatabase::class.java, DATABASE_NAME).build()
+
+    @Provides
+    @Singleton
+    fun provideMovieDao(
+        database: MovieDatabase
+    ) = database.movieDao()
+
+    @Provides
+    @Singleton
+    fun provideTvDao(
+        database: MovieDatabase
+    ) = database.tvsDao()
 
 }

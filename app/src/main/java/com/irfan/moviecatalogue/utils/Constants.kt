@@ -10,4 +10,6 @@ object Constants {
 
     const val TV_TYPE = "tv_type"
 
+    const val DATABASE_NAME = "movie_db"
+
 }
