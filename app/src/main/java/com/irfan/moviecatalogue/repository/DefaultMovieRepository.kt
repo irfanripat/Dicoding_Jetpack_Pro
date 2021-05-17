@@ -1,6 +1,11 @@
 package com.irfan.moviecatalogue.repository
 
 
+import androidx.lifecycle.LiveData
+import com.irfan.moviecatalogue.data.local.dao.MovieDao
+import com.irfan.moviecatalogue.data.local.dao.TvDao
+import com.irfan.moviecatalogue.data.local.entity.Movie
+import com.irfan.moviecatalogue.data.local.entity.TvShow
 import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
 import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
@@ -10,8 +15,12 @@ import com.irfan.moviecatalogue.utils.Resource
 import java.lang.Exception
 import javax.inject.Inject
 
-class DefaultMovieRepository @Inject constructor(private val apiService: ApiService, private val idlingResource: IdlingResource = EspressoIdlingResource) : MovieRepository{
-
+class DefaultMovieRepository @Inject constructor(
+    private val apiService: ApiService,
+    private val movieDao: MovieDao,
+    private val tvDao: TvDao,
+    private val idlingResource: IdlingResource = EspressoIdlingResource
+) : MovieRepository{
     override suspend fun getPopularMovie(): Resource<ApiResponse> {
         idlingResource.increment()
         return try {
@@ -86,6 +95,38 @@ class DefaultMovieRepository @Inject constructor(private val apiService: ApiServ
             idlingResource.decrement()
             Resource.error("No Internet connection", null)
         }
+    }
+
+    override suspend fun insertMovieItem(movie: Movie) {
+        movieDao.insert(movie)
+    }
+
+    override suspend fun insertTvItem(tvShow: TvShow) {
+        tvDao.insert(tvShow)
+    }
+
+    override suspend fun deleteMovieItem(movie: Movie) {
+        movieDao.delete(movie)
+    }
+
+    override suspend fun deleteTvItem(tvShow: TvShow) {
+        tvDao.delete(tvShow)
+    }
+
+    override fun observeAllMovie(): LiveData<List<Movie>> {
+        return movieDao.observeAllMovie()
+    }
+
+    override fun observeAllTvShow(): LiveData<List<TvShow>> {
+        return tvDao.observeAllTvShow()
+    }
+
+    override suspend fun getMovieById(id: Int): Movie? {
+        return movieDao.getMovieById(id)
+    }
+
+    override suspend fun getTvShowById(id: Int): TvShow? {
+        return tvDao.getTvShowById(id)
     }
 
 }

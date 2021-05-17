@@ -12,11 +12,10 @@ import com.bumptech.glide.Glide
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityDetailBinding
 import com.irfan.moviecatalogue.utils.Constants.IMAGE_URL
-import com.irfan.moviecatalogue.utils.Constants.MOVIE_TYPE
-import com.irfan.moviecatalogue.utils.Constants.TV_TYPE
 import com.irfan.moviecatalogue.utils.IdlingResourceTarget
 import com.irfan.moviecatalogue.utils.Status
 import com.irfan.moviecatalogue.utils.Utils.hide
+import com.irfan.moviecatalogue.utils.Utils.orIfBlank
 import com.irfan.moviecatalogue.utils.Utils.rating
 import com.irfan.moviecatalogue.utils.Utils.show
 import com.irfan.moviecatalogue.utils.Utils.toClockTime
@@ -28,6 +27,7 @@ class DetailActivity : AppCompatActivity() {
 
     private val viewModel : DetailViewModel by viewModels()
     private lateinit var binding: ActivityDetailBinding
+    private var isFavorite: Boolean = false
 
     companion object {
         const val EXTRA_ID = "id"
@@ -42,6 +42,9 @@ class DetailActivity : AppCompatActivity() {
         binding.noConnection.btnRefresh.setOnClickListener {
             setData()
         }
+        binding.btnFavorite.setOnClickListener {
+            setFavoriteStatus()
+        }
     }
 
     private fun setUpBinding() {
@@ -54,12 +57,14 @@ class DetailActivity : AppCompatActivity() {
         val id = intent.getIntExtra(EXTRA_ID, -1)
         val type = intent.getStringExtra(EXTRA_TYPE)
 
-        when (intent.getStringExtra(EXTRA_TYPE)) {
-            MOVIE_TYPE -> viewModel.getDetailMovie(id)
-            TV_TYPE -> viewModel.getDetailTv(id)
-        }
+        viewModel.setTypeOfItem(type)
+        viewModel.getDetailItem(id)
+        observeDetailItem()
 
-        observeDetailItem(type)
+        viewModel.checkIfItemIsFavorite(id).observe(this, {
+            isFavorite = it
+            setFavoriteIcon()
+        })
     }
 
     private fun setupActionBar() {
@@ -76,7 +81,7 @@ class DetailActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun observeDetailItem(type : String?) {
+    private fun observeDetailItem() {
         binding.apply {
             viewModel.detailItem.observe(this@DetailActivity, {
                 when (it.status) {
@@ -95,9 +100,10 @@ class DetailActivity : AppCompatActivity() {
                                         .error(R.drawable.default_placeholder)
                                         .into(IdlingResourceTarget(imageBg))
                             }
-                            tvTitle.text = if (type == MOVIE_TYPE) inner.movieTitle else inner.tvName
-                            tvRelease.text = if (type == MOVIE_TYPE) inner.releaseDate else inner.firstAirDate
-                            tvDuration.text = if (type == MOVIE_TYPE) inner.movieDuration.toClockTime(this@DetailActivity) else (if (inner.tvDuration!!.isEmpty()) null.toClockTime(this@DetailActivity) else inner.tvDuration!![0].toClockTime(this@DetailActivity))
+
+                            tvTitle.text = inner.movieTitle orIfBlank inner.tvName
+                            tvRelease.text = inner.releaseDate orIfBlank inner.firstAirDate
+                            tvDuration.text = (inner.movieDuration?: (if (inner.tvDuration?.size == 0) null else inner.tvDuration?.get(0))).toClockTime(this@DetailActivity)
                             tvOverview.text = inner.overview
                             ratingBar.rating = inner.score.rating()
                         }
@@ -163,4 +169,31 @@ class DetailActivity : AppCompatActivity() {
         }
         binding.ratingBar.show()
     }
+
+    private fun setFavoriteStatus() {
+        isFavorite = !isFavorite
+        if (isFavorite) {
+            addToFavorite()
+        } else {
+            removeFromFavorite()
+        }
+        setFavoriteIcon()
+    }
+
+    private fun addToFavorite() {
+        viewModel.addItemToFavourite()
+    }
+
+    private fun removeFromFavorite() {
+        viewModel.removeItemFromFavourite()
+    }
+
+    private fun setFavoriteIcon() {
+        if (isFavorite) {
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled_color)
+        } else {
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border_color)
+        }
+    }
+
 }

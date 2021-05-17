@@ -3,8 +3,9 @@ package com.irfan.moviecatalogue.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.irfan.moviecatalogue.data.local.MovieDatabase
+import com.irfan.moviecatalogue.data.local.dao.MovieDao
+import com.irfan.moviecatalogue.data.local.dao.TvDao
 import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.repository.DefaultMovieRepository
 import com.irfan.moviecatalogue.repository.MovieRepository
@@ -27,8 +28,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMovieRepository(
-        apiService: ApiService
-    ) = DefaultMovieRepository(apiService) as MovieRepository
+        apiService: ApiService,
+        movieDao: MovieDao,
+        tvDao: TvDao
+    ) = DefaultMovieRepository(apiService, movieDao, tvDao) as MovieRepository
 
     @Provides
     @Singleton
@@ -56,6 +59,6 @@ object AppModule {
     @Singleton
     fun provideTvDao(
         database: MovieDatabase
-    ) = database.tvsDao()
+    ) = database.tvDao()
 
 }

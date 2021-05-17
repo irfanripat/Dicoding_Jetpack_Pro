@@ -2,6 +2,7 @@ package com.irfan.moviecatalogue.ui.activity.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import com.google.android.material.tabs.TabLayoutMediator
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityMainBinding
@@ -17,8 +18,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
+        setUpActionBar()
         setUpTabLayout()
+    }
+
+    private fun setUpActionBar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = resources.getString(R.string.app_name)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
     private fun setUpTabLayout() {
@@ -32,5 +39,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }.attach()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }

@@ -15,5 +15,5 @@ abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao() : MovieDao
 
-    abstract fun tvsDao() : TvDao
+    abstract fun tvDao() : TvDao
 }

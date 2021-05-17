@@ -14,7 +14,7 @@ interface TvDao {
     suspend fun delete(tvShow: TvShow)
 
     @Query("SELECT * FROM tv_show")
-    suspend fun observeAllTvShow() : LiveData<List<TvShow>>
+    fun observeAllTvShow() : LiveData<List<TvShow>>
 
     @Query("SELECT * FROM tv_show WHERE id = :id")
     suspend fun getTvShowById(id: Int) : TvShow?
