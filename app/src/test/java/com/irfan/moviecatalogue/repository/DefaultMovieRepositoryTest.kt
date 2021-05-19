@@ -1,14 +1,19 @@
 package com.irfan.moviecatalogue.repository
 
 
+import androidx.paging.DataSource
 import com.google.common.truth.Truth.assertThat
+import com.irfan.moviecatalogue.data.local.dao.MovieDao
+import com.irfan.moviecatalogue.data.local.dao.TvDao
+import com.irfan.moviecatalogue.data.local.entity.Movie
+import com.irfan.moviecatalogue.data.local.entity.TvShow
 import com.irfan.moviecatalogue.data.remote.ApiService
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
 import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
-import com.irfan.moviecatalogue.utils.IdlingResource
-import com.irfan.moviecatalogue.utils.MainCoroutineRule
-import com.irfan.moviecatalogue.utils.Status
+import com.irfan.moviecatalogue.utils.*
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -20,6 +25,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import retrofit2.Response
 
 @ExperimentalCoroutinesApi
@@ -27,6 +33,8 @@ class DefaultMovieRepositoryTest {
 
     private lateinit var apiService: ApiService
     private lateinit var idlingResource: IdlingResource
+    private lateinit var movieDao: MovieDao
+    private lateinit var tvDao: TvDao
     private lateinit var defaultMovieRepository: DefaultMovieRepository
 
     private val mockSuccessResponse : Response<ApiResponse> = Response.success(mock<ApiResponse>(),
@@ -54,7 +62,9 @@ class DefaultMovieRepositoryTest {
     fun setUp() {
         apiService = mock()
         idlingResource = mock()
-        defaultMovieRepository = DefaultMovieRepository(apiService, idlingResource)
+        movieDao = mock()
+        tvDao = mock()
+        defaultMovieRepository = DefaultMovieRepository(apiService, movieDao, tvDao, idlingResource)
     }
 
     @Test
@@ -150,7 +160,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `error when get detail of tv, response status should be erro and data should be null`() {
+    fun `error when get detail of tv, response status should be error and data should be null`() {
         runBlocking {
             `when`(apiService.getDetailTv(dummyId)).thenReturn(mockErrorMovieResponse)
             val response = defaultMovieRepository.getDetailTv(dummyId)
@@ -158,6 +168,113 @@ class DefaultMovieRepositoryTest {
             assertThat(response.status).isEqualTo(Status.ERROR)
             assertThat(response.data).isEqualTo(mockErrorMovieResponse.body())
         }
+    }
+
+    private val dummyMovieId = 399566
+    private val dummyMovie = DataDummy.generateDummyMovie()
+    private val dummyTv = DataDummy.generateDummyTv()
+
+    @Test
+    fun `insert movie to database`() {
+        runBlocking {
+            defaultMovieRepository.insertMovieItem(dummyMovie)
+            verify(movieDao, times(1)).insert(dummyMovie)
+        }
+    }
+
+    @Test
+    fun `insert tv to database`() {
+        runBlocking {
+            defaultMovieRepository.insertTvItem(dummyTv)
+            verify(tvDao, times(1)).insert(dummyTv)
+        }
+    }
+
+    @Test
+    fun `delete movie from favorite`() {
+        runBlocking {
+            defaultMovieRepository.deleteMovieItem(dummyMovie)
+            verify(movieDao, times(1)).delete(dummyMovie)
+        }
+    }
+
+    @Test
+    fun `delete tv from favorite`() {
+        runBlocking {
+            defaultMovieRepository.deleteTvItem(dummyTv)
+            verify(tvDao, times(1)).delete(dummyTv)
+        }
+    }
+
+    @Test
+    fun `get movie by id from db, the return is not null`() {
+        runBlocking {
+            `when`(movieDao.getMovieById(dummyMovieId)).thenReturn(dummyMovie)
+            val result = defaultMovieRepository.getMovieById(dummyMovieId)
+            verify(movieDao, times(1)).getMovieById(dummyMovieId)
+            assertThat(result).isNotNull()
+            assertThat(result).isEqualTo(dummyMovie)
+        }
+    }
+
+    @Test
+    fun `get tv by id from db, the return is not null`() {
+        runBlocking {
+            `when`(tvDao.getTvShowById(dummyMovieId)).thenReturn(dummyTv)
+            val result = defaultMovieRepository.getTvShowById(dummyMovieId)
+            verify(tvDao, times(1)).getTvShowById(dummyMovieId)
+            assertThat(result).isNotNull()
+            assertThat(result).isEqualTo(dummyTv)
+        }
+    }
+
+    @Test
+    fun `get movie by id from db, the return is null`() {
+        runBlocking {
+            `when`(movieDao.getMovieById(dummyMovieId)).thenReturn(null)
+            val result = defaultMovieRepository.getMovieById(dummyMovieId)
+            verify(movieDao, times(1)).getMovieById(dummyMovieId)
+            assertThat(result).isNull()
+        }
+    }
+
+    @Test
+    fun `get tv by id from db, the return is null`() {
+        runBlocking {
+            `when`(tvDao.getTvShowById(dummyMovieId)).thenReturn(null)
+            val result = defaultMovieRepository.getTvShowById(dummyMovieId)
+            verify(tvDao, times(1)).getTvShowById(dummyMovieId)
+            assertThat(result).isNull()
+        }
+    }
+
+    private val dummyListMovie = DataDummy.generateDummyListMovie()
+    private val dummyListTv = DataDummy.generateDummyListTv()
+
+    @Test
+    fun `get all favourite movie`() {
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, Movie>
+        `when`(movieDao.getAllMovie()).thenReturn(dataSourceFactory)
+        defaultMovieRepository.getAllFavouriteMovie()
+
+        val movieEntities = PagedListUtil.mockPagedList(DataDummy.generateDummyListMovie())
+        verify(movieDao).getAllMovie()
+        assertThat(movieEntities).isNotNull()
+        assertThat(movieEntities.size).isEqualTo(dummyListMovie.size)
+        assertThat(movieEntities[15]?.id).isEqualTo(dummyListMovie[15].id)
+    }
+
+    @Test
+    fun `get all favourite tv`() {
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvShow>
+        `when`(tvDao.getAllTvShow()).thenReturn(dataSourceFactory)
+        defaultMovieRepository.getAllFavouriteTv()
+
+        val tvEntities = PagedListUtil.mockPagedList(DataDummy.generateDummyListTv())
+        verify(tvDao).getAllTvShow()
+        assertThat(tvEntities).isNotNull()
+        assertThat(tvEntities.size).isEqualTo(dummyListTv.size)
+        assertThat(tvEntities[15]?.id).isEqualTo(dummyListTv[15].id)
     }
 
 }

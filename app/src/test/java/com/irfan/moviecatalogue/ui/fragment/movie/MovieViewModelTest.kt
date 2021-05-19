@@ -2,11 +2,14 @@ package com.irfan.moviecatalogue.ui.fragment.movie
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.irfan.moviecatalogue.data.local.dao.MovieDao
+import com.irfan.moviecatalogue.data.local.dao.TvDao
 import com.irfan.moviecatalogue.data.remote.entity.ApiResponse
 import com.irfan.moviecatalogue.repository.FakeMovieRepository
 import com.irfan.moviecatalogue.utils.MainCoroutineRule
 import com.irfan.moviecatalogue.utils.Status
 import com.irfan.moviecatalogue.utils.getOrAwaitValueTest
+import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -17,6 +20,8 @@ class MovieViewModelTest {
 
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var fakeMovieRepository: FakeMovieRepository
+    private lateinit var movieDao: MovieDao
+    private lateinit var tvDao: TvDao
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -26,7 +31,9 @@ class MovieViewModelTest {
 
     @Before
     fun setUp() {
-        fakeMovieRepository = FakeMovieRepository()
+        movieDao = mock()
+        tvDao = mock()
+        fakeMovieRepository = FakeMovieRepository(movieDao, tvDao)
     }
 
     @Test

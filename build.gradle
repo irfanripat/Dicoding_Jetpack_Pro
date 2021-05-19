@@ -6,6 +6,7 @@ buildscript {
         androidCoreTestVersion = '2.1.0'
         mockitoKotlinVersion = '2.2.0'
         room_version = "2.3.0"
+        paging_version = "2.1.2"
     }
     repositories {
         google()

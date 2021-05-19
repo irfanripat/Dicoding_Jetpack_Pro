@@ -1,20 +1,15 @@
-package com.irfan.moviecatalogue.ui.activity.main
+package com.irfan.moviecatalogue.ui.activity.favourite
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import com.google.android.material.tabs.TabLayoutMediator
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityMainBinding
-import com.irfan.moviecatalogue.ui.activity.favourite.FavouriteActivity
 import com.irfan.moviecatalogue.ui.activity.favourite.adapter.FavouritePagerAdapter
-import com.irfan.moviecatalogue.ui.activity.main.adapter.PagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class FavouriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -28,13 +23,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpActionBar() {
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = resources.getString(R.string.app_name)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.title = "Favourite"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-
     private fun setUpTabLayout() {
         binding.apply {
-            viewPager.adapter = PagerAdapter(this@MainActivity)
+            viewPager.adapter = FavouritePagerAdapter(this@FavouriteActivity)
 
             TabLayoutMediator(tabLayout, viewPager) {tab, position ->
                 when(position) {
@@ -45,15 +39,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_favourite) {
-            startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

@@ -1,5 +1,6 @@
 package com.irfan.moviecatalogue.ui.fragment.adapter
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,20 +11,15 @@ import com.irfan.moviecatalogue.databinding.ItemMovieBinding
 import com.irfan.moviecatalogue.data.remote.entity.MovieResponse
 import com.irfan.moviecatalogue.utils.Constants.IMAGE_URL
 import com.irfan.moviecatalogue.utils.IdlingResourceTarget
+import com.irfan.moviecatalogue.utils.Utils.orIfBlank
 
-class ListMovieAdapter(
-    private val listItem: MutableList<MovieResponse>,
+class ListMovieAdapter(private val listItem: MutableList<MovieResponse>,
     private val listener: (Any) -> Unit
 ) : RecyclerView.Adapter<ListMovieAdapter.MainViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder =
-        MainViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_movie,
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        return MainViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
+    }
 
 
     override fun onBindViewHolder(holder: ListMovieAdapter.MainViewHolder, position: Int) {
@@ -37,14 +33,14 @@ class ListMovieAdapter(
 
         fun bind(listItem: MovieResponse, listener: (Any) -> Unit) {
             binding.apply {
-                tvTitle.text = if (listItem.movieTitle.isNullOrBlank()) listItem.tvName else listItem.movieTitle
-                tvRelease.text = if (listItem.firstAirDate.isNullOrBlank()) listItem.releaseDate else listItem.firstAirDate
+                tvTitle.text = listItem.movieTitle orIfBlank  listItem.tvName
+                tvRelease.text = listItem.releaseDate orIfBlank  listItem.firstAirDate
                 tvOverview.text = listItem.overview
                 Glide.with(view.context)
                     .load(IMAGE_URL + listItem.posterPath)
                     .error(R.drawable.default_placeholder)
                     .into(
-                            IdlingResourceTarget(imagePoster)
+                        IdlingResourceTarget(imagePoster)
                     )
             }
             itemView.setOnClickListener { listener(listItem) }

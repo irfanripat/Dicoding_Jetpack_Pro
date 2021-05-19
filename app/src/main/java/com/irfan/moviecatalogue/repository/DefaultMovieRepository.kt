@@ -2,6 +2,8 @@ package com.irfan.moviecatalogue.repository
 
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.irfan.moviecatalogue.data.local.dao.MovieDao
 import com.irfan.moviecatalogue.data.local.dao.TvDao
 import com.irfan.moviecatalogue.data.local.entity.Movie
@@ -98,35 +100,55 @@ class DefaultMovieRepository @Inject constructor(
     }
 
     override suspend fun insertMovieItem(movie: Movie) {
+        idlingResource.increment()
         movieDao.insert(movie)
+        idlingResource.decrement()
     }
 
     override suspend fun insertTvItem(tvShow: TvShow) {
+        idlingResource.increment()
         tvDao.insert(tvShow)
+        idlingResource.decrement()
     }
 
     override suspend fun deleteMovieItem(movie: Movie) {
+        idlingResource.increment()
         movieDao.delete(movie)
+        idlingResource.decrement()
     }
 
     override suspend fun deleteTvItem(tvShow: TvShow) {
+        idlingResource.increment()
         tvDao.delete(tvShow)
+        idlingResource.decrement()
     }
 
-    override fun observeAllMovie(): LiveData<List<Movie>> {
-        return movieDao.observeAllMovie()
+    override fun getAllFavouriteMovie(): LiveData<PagedList<Movie>> {
+        idlingResource.increment()
+        val result =  LivePagedListBuilder(movieDao.getAllMovie(), 4).build()
+        idlingResource.decrement()
+        return result
     }
 
-    override fun observeAllTvShow(): LiveData<List<TvShow>> {
-        return tvDao.observeAllTvShow()
+    override fun getAllFavouriteTv(): LiveData<PagedList<TvShow>> {
+        idlingResource.increment()
+        val result =  LivePagedListBuilder(tvDao.getAllTvShow(), 4).build()
+        idlingResource.decrement()
+        return result
     }
 
     override suspend fun getMovieById(id: Int): Movie? {
-        return movieDao.getMovieById(id)
+        idlingResource.increment()
+        val result = movieDao.getMovieById(id)
+        idlingResource.decrement()
+        return result
     }
 
     override suspend fun getTvShowById(id: Int): TvShow? {
-        return tvDao.getTvShowById(id)
+        idlingResource.increment()
+        val result = tvDao.getTvShowById(id)
+        idlingResource.decrement()
+        return result
     }
 
 }

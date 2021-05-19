@@ -39,10 +39,6 @@ object Utils {
         }
     }
 
-    infix fun Int?.orIfNull(anotherInt: Int) : Int {
-        return this ?: anotherInt
-    }
-
     infix fun String?.orIfBlank(anotherString: String?) : String{
         if (this.isNullOrBlank()) {
            return anotherString?:""

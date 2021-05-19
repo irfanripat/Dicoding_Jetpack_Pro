@@ -31,3 +31,4 @@ data class Movie(
     @ColumnInfo(name = "movie_duration")
     var movieDuration: Int? = null,
 )
+
