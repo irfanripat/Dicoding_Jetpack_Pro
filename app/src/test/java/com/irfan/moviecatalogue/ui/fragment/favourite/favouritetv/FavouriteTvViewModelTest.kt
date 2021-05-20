@@ -49,7 +49,7 @@ class FavouriteTvViewModelTest {
 
         val expectedValue = expected.value
         val actualValue = viewModel.getFavouriteTv().value
-        Truth.assertThat(expectedValue).isNotEmpty()
+        Truth.assertThat(actualValue).isNotEmpty()
         Truth.assertThat(expectedValue).isEqualTo(actualValue)
         Truth.assertThat(expectedValue?.snapshot()).isEqualTo(actualValue?.snapshot())
         Truth.assertThat(expectedValue?.size).isEqualTo(actualValue?.size)
@@ -65,7 +65,7 @@ class FavouriteTvViewModelTest {
 
         val expectedValue = expected.value
         val actualValue = viewModel.getFavouriteTv().value
-        Truth.assertThat(expectedValue).isEmpty()
+        Truth.assertThat(actualValue).isEmpty()
         Truth.assertThat(expectedValue).isEqualTo(actualValue)
         Truth.assertThat(expectedValue?.snapshot()).isEqualTo(actualValue?.snapshot())
         Truth.assertThat(expectedValue?.size).isEqualTo(actualValue?.size)

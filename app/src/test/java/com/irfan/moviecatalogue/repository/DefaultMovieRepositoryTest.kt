@@ -175,7 +175,7 @@ class DefaultMovieRepositoryTest {
     private val dummyTv = DataDummy.generateDummyTv()
 
     @Test
-    fun `insert movie to database`() {
+    fun `insert movie item to database`() {
         runBlocking {
             defaultMovieRepository.insertMovieItem(dummyMovie)
             verify(movieDao, times(1)).insert(dummyMovie)
@@ -183,7 +183,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `insert tv to database`() {
+    fun `insert tv item to database`() {
         runBlocking {
             defaultMovieRepository.insertTvItem(dummyTv)
             verify(tvDao, times(1)).insert(dummyTv)
@@ -191,7 +191,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `delete movie from favorite`() {
+    fun `delete movie item from database`() {
         runBlocking {
             defaultMovieRepository.deleteMovieItem(dummyMovie)
             verify(movieDao, times(1)).delete(dummyMovie)
@@ -199,7 +199,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `delete tv from favorite`() {
+    fun `delete tv item from database`() {
         runBlocking {
             defaultMovieRepository.deleteTvItem(dummyTv)
             verify(tvDao, times(1)).delete(dummyTv)
@@ -207,7 +207,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `get movie by id from db, the return is not null`() {
+    fun `get movie item by id from db in case movie item is favourite, the return should be not null`() {
         runBlocking {
             `when`(movieDao.getMovieById(dummyMovieId)).thenReturn(dummyMovie)
             val result = defaultMovieRepository.getMovieById(dummyMovieId)
@@ -218,7 +218,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `get tv by id from db, the return is not null`() {
+    fun `get tv item by id from db in case tv item is favourite, the return should be not null`() {
         runBlocking {
             `when`(tvDao.getTvShowById(dummyMovieId)).thenReturn(dummyTv)
             val result = defaultMovieRepository.getTvShowById(dummyMovieId)
@@ -229,7 +229,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `get movie by id from db, the return is null`() {
+    fun `get movie item by id from db in case movie item is not favourite, the return should be null`() {
         runBlocking {
             `when`(movieDao.getMovieById(dummyMovieId)).thenReturn(null)
             val result = defaultMovieRepository.getMovieById(dummyMovieId)
@@ -239,7 +239,7 @@ class DefaultMovieRepositoryTest {
     }
 
     @Test
-    fun `get tv by id from db, the return is null`() {
+    fun `get tv item by id from db in case tv item is not favourite, the return should be null`() {
         runBlocking {
             `when`(tvDao.getTvShowById(dummyMovieId)).thenReturn(null)
             val result = defaultMovieRepository.getTvShowById(dummyMovieId)

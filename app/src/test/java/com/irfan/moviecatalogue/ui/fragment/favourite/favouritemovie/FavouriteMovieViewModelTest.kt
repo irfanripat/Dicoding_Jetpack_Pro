@@ -51,7 +51,7 @@ class FavouriteMovieViewModelTest {
 
         val expectedValue = expected.value
         val actualValue = viewModel.getFavouriteMovie().value
-        assertThat(expectedValue).isNotEmpty()
+        assertThat(actualValue).isNotEmpty()
         assertThat(expectedValue).isEqualTo(actualValue)
         assertThat(expectedValue?.snapshot()).isEqualTo(actualValue?.snapshot())
         assertThat(expectedValue?.size).isEqualTo(actualValue?.size)
@@ -67,7 +67,7 @@ class FavouriteMovieViewModelTest {
 
         val expectedValue = expected.value
         val actualValue = viewModel.getFavouriteMovie().value
-        assertThat(expectedValue).isEmpty()
+        assertThat(actualValue).isEmpty()
         assertThat(expectedValue).isEqualTo(actualValue)
         assertThat(expectedValue?.snapshot()).isEqualTo(actualValue?.snapshot())
         assertThat(expectedValue?.size).isEqualTo(actualValue?.size)

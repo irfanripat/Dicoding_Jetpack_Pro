@@ -141,7 +141,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `check if movie item is favourite in case movie item is favourite, return should not be true`() {
+    fun `check if movie item is favourite in case movie item is favourite, return should be true`() {
         runBlocking {
             `when`(movieDao.getMovieById(dummyId)).thenReturn(dummyResponse.toMovie())
         }
@@ -156,7 +156,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `check if tv item is favourite in case tv item is favourite, return should not be true`() {
+    fun `check if tv item is favourite in case tv item is favourite, return should be true`() {
         runBlocking {
             `when`(tvDao.getTvShowById(dummyId)).thenReturn(dummyResponse.toTvShow())
         }
@@ -186,7 +186,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `check if tv item is favourite in case tv item is not favourite, return should not be false`() {
+    fun `check if tv item is favourite in case tv item is not favourite, return should be false`() {
         runBlocking {
             `when`(tvDao.getTvShowById(dummyId)).thenReturn(null)
         }
