@@ -1,7 +1,6 @@
 package com.irfan.moviecatalogue.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.irfan.moviecatalogue.data.local.dao.MovieDao

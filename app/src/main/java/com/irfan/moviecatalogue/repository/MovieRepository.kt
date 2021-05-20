@@ -1,7 +1,6 @@
 package com.irfan.moviecatalogue.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.paging.PagedList
 import com.irfan.moviecatalogue.data.local.entity.Movie
 import com.irfan.moviecatalogue.data.local.entity.TvShow

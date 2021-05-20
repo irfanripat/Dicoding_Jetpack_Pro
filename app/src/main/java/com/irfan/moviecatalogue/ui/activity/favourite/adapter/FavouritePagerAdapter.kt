@@ -5,8 +5,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.irfan.moviecatalogue.ui.fragment.favourite.favouritemovie.FavouriteMovieFragment
 import com.irfan.moviecatalogue.ui.fragment.favourite.favouritetv.FavouriteTvFragment
-import com.irfan.moviecatalogue.ui.fragment.movie.MovieFragment
-import com.irfan.moviecatalogue.ui.fragment.tv.TvFragment
 
 class FavouritePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 

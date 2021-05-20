@@ -1,9 +1,11 @@
 package com.irfan.moviecatalogue.data.local.dao
 
-import android.provider.ContactsContract
 import androidx.paging.DataSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
 import com.irfan.moviecatalogue.data.local.entity.Movie
 
 @Dao

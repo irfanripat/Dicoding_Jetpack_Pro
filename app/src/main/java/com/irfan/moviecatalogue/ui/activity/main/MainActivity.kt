@@ -1,15 +1,14 @@
 package com.irfan.moviecatalogue.ui.activity.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.irfan.moviecatalogue.R
 import com.irfan.moviecatalogue.databinding.ActivityMainBinding
 import com.irfan.moviecatalogue.ui.activity.favourite.FavouriteActivity
-import com.irfan.moviecatalogue.ui.activity.favourite.adapter.FavouritePagerAdapter
 import com.irfan.moviecatalogue.ui.activity.main.adapter.PagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -37,7 +37,7 @@ class MainActivityTest {
     @Test
     fun testLoadMovieList() {
         onView(allOf(withId(R.id.rv_movie), isDisplayed()))
-            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(8) )
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(8))
             .check(matches(not(atPosition(8, hasDescendant(withText(""))))))
     }
 
@@ -48,14 +48,14 @@ class MainActivityTest {
             .perform(selectTabAtPosition(1))
 
         onView(allOf(withId(R.id.rv_tv), isDisplayed()))
-            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(8) )
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(8))
             .check(matches(not(atPosition(8, hasDescendant(withText(""))))))
     }
 
     @Test
     fun testIntentToDetailActivityWithMovieData() {
         onView(allOf(withId(R.id.rv_movie), isDisplayed()))
-            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(6) )
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(6))
             .check(matches(not(atPosition(6, hasDescendant(withText(""))))))
             .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(6, click()))
 
@@ -121,4 +121,88 @@ class MainActivityTest {
 
         onView(isRoot()).perform(ViewActions.pressBack())
     }
+
+    @Test
+    fun testAddAndThenRemoveMovieItemFromFavourite() {
+        onView(allOf(withId(R.id.rv_movie), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(1))
+                .check(matches(not(atPosition(1, hasDescendant(withText(""))))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+
+        onView(allOf(withId(R.id.tv_title), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .check(matches(not((withText("")))))
+
+        onView(allOf(withId(R.id.btn_favorite), isDisplayed()))
+                .perform(click())
+
+        onView(isRoot()).perform(ViewActions.pressBack())
+
+        onView(allOf(withId(R.id.menu_favourite), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+        onView(allOf(withId(R.id.rv_favourite), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
+                .check(matches(not(atPosition(0, hasDescendant(withText(""))))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        onView(allOf(withId(R.id.tv_title), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .check(matches(not((withText("")))))
+
+        onView(allOf(withId(R.id.btn_favorite), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+        onView(isRoot()).perform(ViewActions.pressBack())
+
+        onView(isRoot()).perform(ViewActions.pressBack())
+    }
+
+    @Test
+    fun testAddAndThenRemoveTvItemFromFavourite() {
+        onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(1))
+
+        onView(allOf(withId(R.id.rv_tv), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(1))
+                .check(matches(not(atPosition(1, hasDescendant(withText(""))))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+
+        onView(allOf(withId(R.id.tv_title), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .check(matches(not((withText("")))))
+
+        onView(allOf(withId(R.id.btn_favorite), isDisplayed()))
+                .perform(click())
+
+        onView(isRoot()).perform(ViewActions.pressBack())
+
+        onView(allOf(withId(R.id.menu_favourite), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+        onView(allOf(withId(R.id.tabLayout), isDisplayed()))
+                .perform(selectTabAtPosition(1))
+
+        Thread.sleep(1000)
+
+        onView(allOf(withId(R.id.rv_favourite), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
+                .check(matches(not(atPosition(0, hasDescendant(withText(""))))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        onView(allOf(withId(R.id.tv_title), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .check(matches(not((withText("")))))
+
+        onView(allOf(withId(R.id.btn_favorite), isDisplayed()))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+        onView(isRoot()).perform(ViewActions.pressBack())
+
+        onView(isRoot()).perform(ViewActions.pressBack())
+    }
+
 }
